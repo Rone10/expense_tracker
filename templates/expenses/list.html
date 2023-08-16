@@ -1,0 +1,9 @@
+<h1>Expenses List View</h1>
+<div>
+    <h3>Expenses</h3>
+    {% for expense in expenses %}
+        <div>
+        <a href="{{ expense.get_absolute_url }}"><h4>{{expense.name}} - ${{expense.amount}}</h4></a>
+        </div>
+    {% endfor %}
+</div>
