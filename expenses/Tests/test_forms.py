@@ -9,6 +9,6 @@ class TestExpenseForm:
         form = ExpenseForm(data={})
         assert form.is_valid() is False, "Should be invalid if no data is given"
 
-        form = ExpenseForm(data={"amount": 100, "name": "test form name", "category": "test form category"})
+        form = ExpenseForm(data={"amount": 100, "name": "test form name", "category": "Personal"})
         assert form.is_valid() is True, "Should be valid if all required fields are given"
 

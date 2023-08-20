@@ -1,9 +1,71 @@
-<h1>Expenses List View</h1>
-<div>
-    <h3>Expenses</h3>
-    {% for expense in expenses %}
-        <div>
-        <a href="{{ expense.get_absolute_url }}"><h4>{{expense.name}} - ${{expense.amount}}</h4></a>
-        </div>
-    {% endfor %}
-</div>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="px-4 sm:px-6 lg:px-8">
+
+  
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-semibold leading-6 text-gray-900">Plans</h1>
+        <p class="mt-2 text-sm text-gray-700">Keep Track of Your <strong class="font-semibold text-gray-900">Expenses</strong> Here.</p>
+      </div>
+      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+        <button type="button" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Update credit card</button>
+      </div>
+    </div>
+    <div class="-mx-4 mt-10 ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">
+      <table class="min-w-full divide-y divide-gray-300">
+        <thead>
+          <tr>
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
+            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">Amount</th>
+            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">Category</th>
+            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">Date</th>
+    
+            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+              <span class="sr-only">Edit</span>
+            </th>
+            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+              <span class="sr-only">Delete</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+          <tr>
+            <td class="relative py-4 pl-4 pr-3 text-sm sm:pl-6">
+                <a href="{% url 'expenses:detail' expense.id %}" class="text-indigo-600 hover:text-indigo-900">
+
+                    <div class="font-medium text-gray-900">{{expense.name}}</div>
+                </a>
+              <div class="mt-1 flex flex-col text-gray-500 sm:block lg:hidden">
+                <span>{{expense.amount}}</span>
+                <span class="hidden sm:inline">·</span>
+                <span>{{expense.category}}</span>
+                <span>{{expense.date}}</span>
+              </div>
+            </td>
+            <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">{{expense.amount}}</td>
+            <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">{{expense.category}}</td>
+            <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">{{expense.date}}</td>
+         
+            <td class="relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                <a href="{% url 'expenses:update' expense.id %}" class="text-indigo-600 hover:text-indigo-900">
+
+                    <button type="button" class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">Edit<span class="sr-only">, Edit</span></button>
+                </a>
+            </td>
+            <td class="relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                <a href="{% url 'expenses:delete' expense.id %}" class="text-indigo-600 hover:text-indigo-900">
+
+                    <button type="button" class="inline-flex items-center rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">Delete<span class="sr-only">, Delete</span></button>
+                </a>
+            </td>
+          </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+{% endblock %}

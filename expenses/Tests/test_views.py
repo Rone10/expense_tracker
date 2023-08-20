@@ -3,7 +3,7 @@ import pytest
 from expenses.models import Expense
 from expenses.forms import ExpenseForm
 from expenses.views import (
-            ExpenseListView, ExpenseDetailView,
+             ExpenseDetailView,
             ExpenseCreateView, ExpenseUpdateView, ExpenseUpdateView,
             ExpenseDeleteView, 
 
@@ -13,18 +13,18 @@ from expenses.tests.factories import ExpenseFactory
 pytestmark = pytest.mark.django_db
 
 
-class TestExpenseListView:
-    def test_expense_list_view(self, client):
-        url = reverse("expenses:list")
-        response = client.get(url)
-        assert response.status_code == 200
+# class TestExpenseListView:
+#     def test_expense_list_view(self, client):
+#         url = reverse("expenses:list")
+#         response = client.get(url)
+#         assert response.status_code == 200
 
-    def test_expense_list_view_with_expenses(self, client):
-        ExpenseFactory.create_batch(10)
-        url = reverse("expenses:list")
-        response = client.get(url)
-        assert response.status_code == 200
-        assert len(response.context["object_list"]) == 10
+#     def test_expense_list_view_with_expenses(self, client):
+#         ExpenseFactory.create_batch(10)
+#         url = reverse("expenses:list")
+#         response = client.get(url)
+#         assert response.status_code == 200
+#         assert len(response.context["object_list"]) == 10
     
 
 class TestExpenseDetailView:
@@ -44,12 +44,12 @@ class TestExpenseDetailView:
 
 class TestExpenseCreateView:
     def test_expense_create_view(self, client):
-        url = reverse("expenses:create")
+        url = reverse("expenses:expenses")
         response = client.get(url)
         assert response.status_code == 200
 
     def test_expense_create_view_with_valid_data(self, client):
-        url = reverse("expenses:create")
+        url = reverse("expenses:expenses")
         data = {
             "name": "Test Expense",
             "amount": 100,
@@ -62,7 +62,7 @@ class TestExpenseCreateView:
         assert Expense.objects.first().name == "Test Expense"
 
     def test_expense_create_view_with_invalid_data(self, client):
-        url = reverse("expenses:create")
+        url = reverse("expenses:expenses")
         data = {
             "title": "Test Expense",
             "amount": 100,
