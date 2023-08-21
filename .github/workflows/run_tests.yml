@@ -21,5 +21,5 @@ jobs:
 
     - name: Run Pytest
       run: |
-        export DJANGO_SETTINGS_MODULE = "expense_tracker.settings"  
+        export DJANGO_SETTINGS_MODULE="expense_tracker.settings"  
         pytest -vv
