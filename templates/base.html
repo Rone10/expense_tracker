@@ -1,23 +1,25 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
 
-<html lang="en" class="h-full bg-gray-50">
+<html lang="en" class="h-full ">
     <head>
         <meta charset="UTF-8">
         <title>My Blog</title>
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/main.css">
         {% tailwind_css %}
+        {% block head_scripts %}{% endblock %}
+     
 </head>
-    <body class="h-full">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 header">
+    <body class="h-full w-full flex items-center flex-col">
+    <div class=" ">
+        <div class="">
+            <div class="c header">
                 <h1 class="text-5xl text-green-600 text-center">Expense Tracker App</h1>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
+        <div class="">
+            <div class="">
                 {% block content %}{% endblock %}
             </div>
         </div>
@@ -26,6 +28,6 @@
         </div>
     </div>
 
-    
+    {% block scripts %}{% endblock %}
     </body>
 </html>

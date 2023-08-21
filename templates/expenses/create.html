@@ -1,17 +1,12 @@
 {% extends 'base.html' %}
 
-
-
 {% block content  %}
-
-
+<div class="pb-10 ">
 
 <div class=" shadow sm:rounded-lg">
   <div class="px-4 py-5 sm:p-6 ">
-    <h3 class="text-base font-semibold leading-6 text-gray-900">Update your email</h3>
-    <div class="mt-2 max-w-xl text-sm text-gray-500">
-      <p>Change the email address you want associated with your account.</p>
-    </div>
+    <h3 class="text-base font-semibold leading-6 text-gray-900">Add Expense</h3>
+   
     <form class="mt-5 sm:flex sm:items-center" method="post">
       {% csrf_token %}
       
@@ -31,16 +26,83 @@
     </form>
   </div>
 </div>
+<!-- Summaries -->
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:mt-5">
+  <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
+    <div class="flex-shrink-0">
+      <p class="truncate font-bold">Last 30 Days</p>
+    </div>
+    <div class="min-w-0 flex-1">
+ 
+      <p class="truncate text-green-500 font-bold text-2xl">$3,100.72</p>
+    </div>
+  </div>
+  <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
+    <div class="flex-shrink-0">
+      <p class="truncate font-bold">Last Quarter</p>
+    </div>
+    <div class="min-w-0 flex-1">
+ 
+      <p class="truncate text-green-500 font-bold text-2xl">$43,100.72</p>
+    </div>
+  </div>
+  <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
+    <div class="flex-shrink-0">
+      <p class="truncate font-bold">Last 365 Days</p>
+    </div>
+    <div class="min-w-0 flex-1">
+ 
+      <p class="truncate text-green-500 font-bold text-2xl">$163,100.72</p>
+    </div>
+  </div>
+ 
+</div>
+<!-- categories  -->
+<div class="sm:mt-5 px-4  lg:px-0">
+  <h2 class="text-2xl font-bold text-gray-500">Categories</h2>
+  <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 ">
+    {% for key, value in cats.items %}
+    <li class="col-span-1 flex rounded-md shadow-sm">
+      <div class="category flex w-1/2 flex-shrink-0 items-center justify-center bg-green-600 rounded-l-md  font-bold text-white">{{key}}</div>
+      <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 bg-white">
+       
+        <div class="flex-shrink-0  w-full flex justify-around">
+          <div class="sm:w-1/2 ">
+            <p class="text-2xl font-bold text-green-600 text-right">$</p>
+          </div>
+          <div class=" sm:w-1/2 sm:pr-2">
+            <p class="category-amount text-2xl font-bold text-green-600 text-right">
+              {{value|floatformat:2}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </li>
+    
+    
+    {% endfor %}
+  </ul>
+</div>
 
+<!-- Graph -->
+<div class="mx-auto ">
+
+  <div class="shadow-lg  mt-20   mx-auto">
+    <h1 class="text-xl text-center font-semibold leading-6 text-green-600 ">Expenses Graph</h1>
+    <div class="sm:w-1/2 mx-auto py-10">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+</div>
 
 <!-- List of Expenses -->
-<div class="px-4 sm:px-6 lg:px-8 mt-10">
+<div class="px-4  lg:px-0 mt-10">
 
   
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-      <h1 class="text-base font-semibold leading-6 text-gray-900">Expenses</h1>
-      <p class="mt-2 text-sm text-gray-700">Keep Track of Your <strong class="font-semibold text-gray-900">Expenses</strong> Here.</p>
+      <h1 class="text-3xl font-semibold leading-6 text-green-600 text-center">Expenses</h1>
+      <p class="mt-2 text-lg text-gray-700">Keep Track of Your <strong class="font-semibold text-gray-900">Expenses</strong> Here.</p>
     </div>
   
   </div>
@@ -67,16 +129,16 @@
           <td class="relative py-4 pl-4 pr-3 text-sm sm:pl-6">
               <a href="{% url 'expenses:detail' expense.id %}" class="text-indigo-600 hover:text-indigo-900">
 
-                  <div class="font-medium text-gray-900">{{expense.name}}</div>
+                  <div class="font-medium text-green-600">{{expense.name}}</div>
               </a>
             <div class="mt-1 flex flex-col text-gray-500 sm:block lg:hidden">
-              <span>{{expense.amount}}</span>
+              <span>${{expense.amount}}</span>
               <span class="hidden sm:inline">·</span>
               <span>{{expense.category}}</span>
               <span>{{expense.date}}</span>
             </div>
           </td>
-          <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">{{expense.amount}}</td>
+          <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell"><span class="font-bold text-base mr-1">$</span>{{expense.amount}}</td>
           <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">{{expense.category}}</td>
           <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">{{expense.date}}</td>
        
@@ -100,4 +162,45 @@
 </div>
 
 
+
+</div>
+
+<script>
+  const ctx = document.getElementById('myChart');
+  const categories = document.getElementsByClassName('category')
+  const amounts = document.getElementsByClassName('category-amount')
+  const categoryLabels = []
+  const categoryAmounts = []
+  for (let i = 0; i < categories.length; i++) {
+    categoryLabels.push(categories[i].innerText)
+    categoryAmounts.push(amounts[i].innerText)
+  } 
+  
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: categoryLabels,
+      datasets: [{
+        label: 'Expenses',
+        data: categoryAmounts,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      // scales: {
+      //   y: {
+      //     beginAtZero: true
+      //   }
+      // }
+    }
+  });
+</script>
+<script>
+  console.log('Hello from the console!');
+</script>
+{% endblock %}
+
+
+{% block head_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
+from django.db import models
 from .forms import ExpenseForm
 from .models import Expense
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -37,11 +38,22 @@ class ExpenseCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['expenses'] =  Expense.objects.all()
+     
+        categories = Expense.CATEGORIES
+        context['categories'] = categories
+        total = Expense.objects.all().aggregate(total=models.Sum('amount'))
+        context['total'] = total
+        cats = {}
+        for cat in categories:
+            print('cat', cat)
+            q = Expense.objects.filter(category=cat[0]).aggregate(total=models.Sum('amount'))['total'] 
+            if q:
+                cats[cat[0]] = float(q)
+            else:
+                cats[cat[0]] =  0.00
+        context['cats'] = cats
+        print(cats)
         return context
-
-    # def get_success_url(self) -> str:
-    #     return super().get_success_url()
-
 
 class ExpenseUpdateView(UpdateView):
     # model = Expense
