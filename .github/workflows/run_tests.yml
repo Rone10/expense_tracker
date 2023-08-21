@@ -20,6 +20,4 @@ jobs:
         python -m pip install -r requirements.txt
 
     - name: Run Pytest
-      run: |
-        export DJANGO_SETTINGS_MODULE="expense_tracker.settings"  
-        pytest -vv
+      run:  pytest -vv
