@@ -21,3 +21,4 @@ jobs:
 
     - name: Run Pytest
       run: pytest -vv
+      working-directory: tests
