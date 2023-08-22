@@ -32,9 +32,11 @@ class ExpenseCreateView(LoginRequiredMixin ,CreateView):
     template_name = 'expenses/create.html'
     form_class = ExpenseForm
     success_url = reverse_lazy('expenses:expenses')
+    
    
     
     def get_context_data(self, **kwargs):
+        self.object = None
         context = super().get_context_data(**kwargs)
         context['expenses'] =  Expense.objects.all()
      
@@ -54,7 +56,19 @@ class ExpenseCreateView(LoginRequiredMixin ,CreateView):
         print(cats)
         return context
 
+    def get(self, request, *args, **kwargs):
+        print('inside get')
+        context = self.get_context_data(**kwargs)
+        print('context', context)
+        q = request.GET.get('search')
+        results = None
+        if q:
+            results = Expense.objects.filter(name__icontains=self.request.GET.get('search'))
+        if results:
+            context['expenses'] = results
+        return self.render_to_response(context)
     
+
 class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
     # model = Expense
     template_name = 'expenses/update.html'
