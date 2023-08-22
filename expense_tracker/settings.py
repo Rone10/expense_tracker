@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # my apps
     'expenses',
+    'users',
     # third party apps
     'tailwind',
     'theme',
@@ -136,3 +137,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TAILWIND_APP_NAME = 'theme'
+
+LOGIN_REDIRECT_URL = 'expenses:expenses'
+LOGOUT_REDIRECT_URL = 'users:login'
+LOGIN_URL = 'users:login'
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']

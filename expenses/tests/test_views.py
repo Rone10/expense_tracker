@@ -1,10 +1,11 @@
 from django.urls import reverse
 import pytest
+from django.contrib.auth import get_user_model
 from expenses.models import Expense
 from expenses.forms import ExpenseForm
 from expenses.views import (
-             ExpenseDetailView,
-            ExpenseCreateView, ExpenseUpdateView, ExpenseUpdateView,
+    
+            ExpenseCreateView, ExpenseUpdateView,
             ExpenseDeleteView, 
 
         ) 
@@ -27,28 +28,20 @@ pytestmark = pytest.mark.django_db
 #         assert len(response.context["object_list"]) == 10
     
 
-class TestExpenseDetailView:
-    def test_expense_detail_view(self, client):
-        expense = ExpenseFactory()
-        url = reverse("expenses:detail", kwargs={"pk": expense.pk})
-        response = client.get(url)
-        assert response.status_code == 200
 
-    def test_expense_detail_view_with_expense(self, client):
-        expense = ExpenseFactory()
-        url = reverse("expenses:detail", kwargs={"pk": expense.pk})
-        response = client.get(url)
-        assert response.status_code == 200
-        assert response.context["object"] == expense
 
 
 class TestExpenseCreateView:
     def test_expense_create_view(self, client):
+        user = get_user_model().objects.create_user(username="test", password="test")
+        client.force_login(user)
         url = reverse("expenses:expenses")
         response = client.get(url)
         assert response.status_code == 200
 
     def test_expense_create_view_with_valid_data(self, client):
+        user = get_user_model().objects.create_user(username="test", password="test")
+        client.force_login(user)
         url = reverse("expenses:expenses")
         data = {
             "name": "Test Expense",
@@ -62,6 +55,8 @@ class TestExpenseCreateView:
         assert Expense.objects.first().name == "Test Expense"
 
     def test_expense_create_view_with_invalid_data(self, client):
+        user = get_user_model().objects.create_user(username="test", password="test")
+        client.force_login(user)
         url = reverse("expenses:expenses")
         data = {
             "title": "Test Expense",
@@ -79,12 +74,16 @@ class TestExpenseCreateView:
 
 class TestExpenseUpdateView:
     def test_expense_update_view(self, client):
+        user = get_user_model().objects.create_user(username="test", password="test")
+        client.force_login(user)
         expense = ExpenseFactory()
         url = reverse("expenses:update", kwargs={"pk": expense.pk})
         response = client.get(url)
         assert response.status_code == 200
 
     def test_expense_update_view_with_valid_data(self, client):
+        user = get_user_model().objects.create_user(username="test", password="test")
+        client.force_login(user)
         expense = ExpenseFactory()
         url = reverse("expenses:update", kwargs={"pk": expense.pk})
         data = {
@@ -98,6 +97,8 @@ class TestExpenseUpdateView:
         assert Expense.objects.first().name == "Test Expense Update View"
 
     def test_expense_update_view_with_invalid_data(self, client):
+        user = get_user_model().objects.create_user(username="test", password="test")
+        client.force_login(user)
         expense = ExpenseFactory()
         url = reverse("expenses:update", kwargs={"pk": expense.pk})
         data = {
@@ -116,12 +117,16 @@ class TestExpenseUpdateView:
 
 class TestExpenseDeleteView:
     def test_expense_delete_view(self, client):
+        user = get_user_model().objects.create_user(username="test", password="test")
+        client.force_login(user)
         expense = ExpenseFactory()
         url = reverse("expenses:delete", kwargs={"pk": expense.pk})
         response = client.get(url)
         assert response.status_code == 200
 
     def test_expense_delete_view_with_valid_data(self, client):
+        user = get_user_model().objects.create_user(username="test", password="test")
+        client.force_login(user)
         expense = ExpenseFactory()
         url = reverse("expenses:delete", kwargs={"pk": expense.pk})
         response = client.post(url)
@@ -129,6 +134,8 @@ class TestExpenseDeleteView:
         assert Expense.objects.count() == 0
 
     def test_expense_delete_view_with_invalid_data(self, client):
+        user = get_user_model().objects.create_user(username="test", password="test")
+        client.force_login(user)
         url = reverse("expenses:delete", kwargs={"pk": 100})
         response = client.post(url)
         assert response.status_code == 404

@@ -22,5 +22,3 @@ class Expense(models.Model):
     class Meta:
         ordering = ['-date']
     
-    def get_absolute_url(self):
-        return reverse('expenses:detail', kwargs={'pk': self.id})

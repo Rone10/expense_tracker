@@ -4,6 +4,7 @@ from django.db import models
 from .forms import ExpenseForm
 from .models import Expense
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
@@ -24,16 +25,14 @@ def index(request):
 #         return context
 
 
-class ExpenseDetailView(DetailView):
-    model = Expense
-    template_name = 'expenses/detail.html'
-    context_object_name = 'expense'
 
 
-class ExpenseCreateView(CreateView):
+
+class ExpenseCreateView(LoginRequiredMixin ,CreateView):
     template_name = 'expenses/create.html'
     form_class = ExpenseForm
     success_url = reverse_lazy('expenses:expenses')
+   
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,18 +54,16 @@ class ExpenseCreateView(CreateView):
         print(cats)
         return context
 
-class ExpenseUpdateView(UpdateView):
+    
+class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
     # model = Expense
     template_name = 'expenses/update.html'
     form_class = ExpenseForm
     queryset = Expense.objects.all()
+    success_url = reverse_lazy('expenses:expenses')
 
 
-    def get_success_url(self) -> str:
-        return super().get_success_url()
-
-
-class ExpenseDeleteView(DeleteView):
+class ExpenseDeleteView(LoginRequiredMixin, DeleteView):
     model = Expense
     template_name = 'expenses/delete.html'
     context_object_name = 'expense'

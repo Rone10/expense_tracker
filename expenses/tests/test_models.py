@@ -15,6 +15,3 @@ class TestExpenseModel:
         assert expense.__str__() == expense.name
         assert str(expense) == 'Test Expense'
 
-    def test_expense_model_get_absolute_url(self):
-        expense = ExpenseFactory()
-        assert expense.get_absolute_url() == f'/detail/{expense.pk}'
