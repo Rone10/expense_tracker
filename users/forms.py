@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from django.contrib.auth import get_user_model
 
+
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(
         widget=forms.TextInput(
@@ -18,17 +19,29 @@ class CustomLoginForm(AuthenticationForm):
         )
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["username"].label = False
+        self.fields["password"].label = False
 
 
 class UserCreateForm(UserCreationForm):
     first_name = forms.CharField(
         widget=forms.TextInput(
-            attrs={"class": "form-input", "id": "first_name", "placeholder": "First Name"}
+            attrs={
+                "class": "form-input",
+                "id": "first_name",
+                "placeholder": "First Name",
+            }
         )
     )
     last_name = forms.CharField(
         widget=forms.TextInput(
-            attrs={"class": "form-input", "id": "lasts_name", "placeholder": "Last Name"}
+            attrs={
+                "class": "form-input",
+                "id": "lasts_name",
+                "placeholder": "Last Name",
+            }
         )
     )
     email = forms.CharField(
@@ -57,7 +70,6 @@ class UserCreateForm(UserCreationForm):
         )
     )
 
-
     class Meta:
         model = get_user_model()
         fields = (
@@ -68,3 +80,13 @@ class UserCreateForm(UserCreationForm):
             "password1",
             "password2",
         )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["first_name"].label = False
+        self.fields["last_name"].label = False
+        self.fields["username"].label = False
+        self.fields["email"].label = False
+        self.fields["password1"].label = False
+        self.fields["password2"].label = False
