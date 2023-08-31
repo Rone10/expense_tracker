@@ -4,8 +4,27 @@ services:
   web:
     build: .
     # command: python manage.py runserver 0.0.0.0:8000
+    # command: python manage.py collectstatic --noinput
+    command: gunicorn expense_tracker.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/code
-      - /code/venv/
+      - static_volume:/code/staticfiles
+      # - /code/venv/
+    # expose:
+    #   - 8000:8000
+  
+    # container_name: backend
+  
+  nginx:
+    build: ./nginx
+    volumes:
+      # - ./nginx:/etc/nginx/conf.d
+      - static_volume:/code/staticfiles
     ports:
-      - "8000:8000"
+      - 80:80
+    depends_on:
+      - web
+    # container_name: reverse-proxy
+  
+volumes:
+  static_volume:

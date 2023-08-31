@@ -3,29 +3,31 @@
 <!DOCTYPE html>
 
 <html lang="en" class="h-full ">
-    <head>
-        <meta charset="UTF-8">
-        <title>My Blog</title>
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/main.css">
-        {% tailwind_css %}
-        {% block head_scripts %}{% endblock %}
-     
-</head>
-    <body class="h-full w-full flex items-center flex-col">
-        <div class=" w-full">   
-            {% include 'partials/_navbar.html' %}
-        </div>
-    
-      
-        <div class="container">   
-                {% block content %}{% endblock %}
-        </div>
-    
-    
 
-            {% block scripts %}{% endblock %}
-    
-        <script src="{% static 'js/navbar.js' %}"></script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+
+    {% tailwind_css %}
+    {% block head_scripts %}{% endblock %}
+
+</head>
+
+<body class="h-full w-full flex items-center flex-col">
+    <div class=" w-full">
+        {% include 'partials/_navbar.html' %}
+    </div>
+
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+
+
+    {% block scripts %}{% endblock %}
+
+    <script src="{% static 'js/navbar.js' %}"></script>
+</body>
+
 </html>

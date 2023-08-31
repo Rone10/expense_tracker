@@ -21,9 +21,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('users/', include(('users.urls', 'users'), namespace='users')),
-    path('__reload__/', include('django_browser_reload.urls')),
-    path('users/logout', views.LogoutView.as_view(), name='logout'),
-    path('', include(('expenses.urls', 'expenses'), namespace='expenses')),
+    path("admin/", admin.site.urls),
+    path("users/", include(("users.urls", "users"), namespace="users")),
+    # path('__reload__/', include('django_browser_reload.urls')),
+    path("users/logout", views.LogoutView.as_view(), name="logout"),
+    path("", include(("expenses.urls", "expenses"), namespace="expenses")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
