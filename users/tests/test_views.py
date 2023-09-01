@@ -1,10 +1,9 @@
-import pytest 
-from users.forms import CustomLoginForm, UserCreateForm
+import pytest
 from django.contrib.auth import get_user_model
-from django.urls import reverse, reverse_lazy
-from users.views import UserLoginView, UserSignUpView
+from django.urls import reverse
 
 pytestmark = pytest.mark.django_db
+
 
 class TestUserViews:
     def test_login_view(self, client):
@@ -13,7 +12,8 @@ class TestUserViews:
         assert response.status_code == 200
 
     def test_login_view_with_valid_data(self, client):
-        user = get_user_model().objects.create_user(username="test", password="test")
+        # user = get_user_model().objects.create_user(
+        # username="test", password="test")
         url = reverse("users:login")
         data = {"username": "test", "password": "test"}
         response = client.post(url, data)
@@ -27,7 +27,9 @@ class TestUserViews:
         assert response.status_code == 200
 
     def test_login_view_with_authenticated_user(self, client):
-        user = get_user_model().objects.create_user(username="test", password="raymondreddington")
+        user = get_user_model().objects.create_user(
+            username="test", password="raymondreddington"
+        )
         client.force_login(user)
         url = reverse("users:login")
         response = client.get(url)
