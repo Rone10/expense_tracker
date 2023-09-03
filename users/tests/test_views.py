@@ -12,8 +12,7 @@ class TestUserViews:
         assert response.status_code == 200
 
     def test_login_view_with_valid_data(self, client):
-        # user = get_user_model().objects.create_user(
-        # username="test", password="test")
+        get_user_model().objects.create_user(username="test", password="test")
         url = reverse("users:login")
         data = {"username": "test", "password": "test"}
         response = client.post(url, data)
